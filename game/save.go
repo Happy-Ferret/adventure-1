@@ -14,7 +14,8 @@ type Save struct {
 	BattlesWon  int `json:"battles_won,omitempty"`
 	BattlesLost int `json:"battles_lost,omitempty"`
 
-	HeroName string `json:"hero_name,omitempty"`
+	HeroName  string `json:"hero_name,omitempty"`
+	HitPoints int    `json:"hit_points,omitempty"`
 }
 
 func LoadSave() *Save {

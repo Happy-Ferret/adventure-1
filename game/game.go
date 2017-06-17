@@ -35,7 +35,12 @@ func (g *Game) Run() {
 		g.save.HeroName = ui.Prompt(g.S, "What is your name?")
 		WriteSave(g.save)
 	}
-	g.hero = hero.NewHero(g.save.HeroName)
+
+	if g.save.HitPoints == 0 {
+		g.save.HitPoints = 20
+	}
+
+	g.hero = hero.NewHero(g.save.HeroName, g.save.HitPoints)
 
 	color.New(color.FgHiWhite, color.Italic).Printf("Welcome %s! Prepare for battle!\n\n", g.hero.Name())
 
@@ -58,6 +63,7 @@ func (g *Game) Run() {
 	}
 
 	g.save.Battles++
+	g.save.HitPoints++
 	WriteSave(g.save)
 	g.PrintSaveStats()
 }

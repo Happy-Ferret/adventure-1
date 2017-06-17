@@ -8,9 +8,9 @@ type Hero struct {
 	HeroName string
 }
 
-func NewHero(name string) iface.Creature {
+func NewHero(name string, hitPoints int) iface.Creature {
 	return &Hero{
-		BaseCreature: iface.BaseCreature{HitPoints: 20},
+		BaseCreature: iface.BaseCreature{HitPoints: hitPoints},
 		HeroName:     name,
 	}
 }
