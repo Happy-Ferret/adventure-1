@@ -47,10 +47,10 @@ func ReportDamage(attacker, target iface.Creature, attack iface.Attack, damage i
 	}
 
 	if attacker.IsDead() {
-		d.Printf("%s is dead!\n", attacker.Name())
+		d.Printf("%s is defeated!\n", attacker.Name())
 	}
 	if target.IsDead() {
-		d.Printf("%s is dead!\n", target.Name())
+		d.Printf("%s is defeated!\n", target.Name())
 	}
 }
 
