@@ -3,6 +3,7 @@ package attack
 import (
 	"github.com/cosmodash/adventure/iface"
 	"github.com/cosmodash/adventure/ui"
+	"github.com/cosmodash/adventure/util"
 )
 
 type Pounce struct {
@@ -22,6 +23,7 @@ func (p *Pounce) Description() string {
 }
 
 func (p *Pounce) DoAttack(attacker, target iface.Creature) {
-	target.Damage(p.power)
-	ui.ReportDamage(attacker, target, p, p.power)
+	d := util.RandRange(p.power/2, p.power)
+	target.Damage(d)
+	ui.ReportDamage(attacker, target, p, d)
 }

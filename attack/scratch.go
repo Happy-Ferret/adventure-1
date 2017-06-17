@@ -3,6 +3,7 @@ package attack
 import (
 	"github.com/cosmodash/adventure/iface"
 	"github.com/cosmodash/adventure/ui"
+	"github.com/cosmodash/adventure/util"
 )
 
 type Scratch struct {
@@ -22,6 +23,7 @@ func (s *Scratch) Description() string {
 }
 
 func (s *Scratch) DoAttack(attacker, target iface.Creature) {
-	target.Damage(s.power)
-	ui.ReportDamage(attacker, target, s, s.power)
+	d := util.RandRange(0, s.power)
+	target.Damage(d)
+	ui.ReportDamage(attacker, target, s, d)
 }
