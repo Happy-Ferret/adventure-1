@@ -19,16 +19,23 @@ type Game struct {
 	hero  iface.Creature
 	enemy iface.Creature
 
+	save *Save
+
 	S *bufio.Scanner
 }
 
 func (g *Game) Run() {
 	rand.Seed(time.Now().UnixNano())
 
+	g.save = LoadSave()
+
 	g.S = bufio.NewScanner(os.Stdin)
 
-	heroName := ui.Prompt(g.S, "What is your name?")
-	g.hero = hero.NewHero(heroName)
+	if len(g.save.HeroName) == 0 {
+		g.save.HeroName = ui.Prompt(g.S, "What is your name?")
+		WriteSave(g.save)
+	}
+	g.hero = hero.NewHero(g.save.HeroName)
 
 	color.New(color.FgHiWhite, color.Italic).Printf("Welcome %s! Prepare for battle!\n\n", g.hero.Name())
 
@@ -40,13 +47,19 @@ func (g *Game) Run() {
 		}
 		if g.hero.IsDead() {
 			color.Red("You Lost! You are now dead. Sadness\n")
+			g.save.BattlesLost++
 			break
 		}
 		if g.enemy.IsDead() {
 			color.Green("You are victorious! You are a great and powerful Warrior!\n")
+			g.save.BattlesWon++
 			break
 		}
 	}
+
+	g.save.Battles++
+	WriteSave(g.save)
+	g.PrintSaveStats()
 }
 
 func (g *Game) runFightTurn() {
@@ -87,4 +100,17 @@ func (g *Game) runEnemyAttack() {
 
 func (g *Game) createEnemy() iface.Creature {
 	return mob.NewKittyPet()
+}
+
+func (g *Game) PrintSaveStats() {
+	h := color.New(color.Underline, color.FgHiWhite)
+	k := color.New(color.FgYellow, color.Bold)
+	v := color.New(color.FgWhite)
+	h.Printf("Battle Stats for %s\n", g.save.HeroName)
+	k.Print("Battles Won: ")
+	v.Printf("%d\n", g.save.BattlesWon)
+	k.Print("Battles Lost: ")
+	v.Printf("%d\n", g.save.BattlesLost)
+	k.Print("Total Battles: ")
+	v.Printf("%d\n", g.save.Battles)
 }
