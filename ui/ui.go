@@ -40,10 +40,10 @@ func ReportDamage(attacker, target iface.Creature, attack iface.Attack, damage i
 	d := color.New(color.BgRed, color.FgHiWhite)
 	if damage > 0 {
 		d.Printf("%s uses %s on %s and does %d damage.\n",
-			attacker.Name(), target.Name(), attack.Name(), damage)
+			attacker.Name(), attack.Name(), target.Name(), damage)
 	} else {
 		d.Printf("%s uses %s on %s but misses!\n",
-			attacker.Name(), target.Name(), attack.Name())
+			attacker.Name(), attack.Name(), target.Name())
 	}
 
 	if attacker.IsDead() {
